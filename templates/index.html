@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bangalore House Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input,
+        select {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-size: 20px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Bangalore House Price Prediction</h2>
+
+        <form action="/predict" method="POST">
+
+            <input type="number" name="sqft" placeholder="Total Sqft" required>
+
+            <input type="number" name="bath" placeholder="Bathrooms" required>
+
+            <input type="number" name="bhk" placeholder="BHK" required>
+
+            <input type="number" name="balcony" placeholder="balcony" required>
+
+            <select name="location" required>
+                <option value="">Select Location</option>
+
+                {% for location in locations %}
+                <option value="{{ location }}">{{ location }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" oneclick="send_data()">Predict Price</button>
+
+        </form>
+
+        {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
