@@ -212,8 +212,8 @@ Example:
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/Bangalore-House-Price-Prediction.git
-cd Bangalore-House-Price-Prediction
+git clone https://github.com/virendraksp47/bangalore_house_price_prediction
+cd bangalore_house_price_prediction
 ```
 
 ### Create Virtual Environment
