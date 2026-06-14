@@ -198,9 +198,9 @@ Example:
 
 | Model | R² Score |
 |---------|---------|
-| Linear Regression | 84% |
-| Ridge Regression | 86% |
-| Lasso Regression | 85% |
+| Linear Regression | 83.95% |
+| Ridge Regression | 83.95% |
+| Lasso Regression | 83.31% |
 
 > Update with your actual results.
 
