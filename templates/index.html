@@ -1,92 +1,480 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bangalore House Price Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin-top: 50px;
-        }
 
-        .container {
-            width: 400px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px gray;
-        }
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        input,
-        select {
-            width: 90%;
-            padding: 10px;
-            margin: 8px 0;
-        }
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        .result {
-            margin-top: 15px;
-            font-size: 20px;
-            color: green;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <div class="container">
-        <h2>Bangalore House Price Prediction</h2>
+    <!-- ================= NAVBAR ================= -->
 
-        <form action="/predict" method="POST">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+        <div class="container">
 
-            <input type="number" name="sqft" placeholder="Total Sqft" required>
+            <a class="navbar-brand fw-bold fs-3" href="#">
+                🏠 HousePriceAI
+            </a>
 
-            <input type="number" name="bath" placeholder="Bathrooms" required>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            <input type="number" name="bhk" placeholder="BHK" required>
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-            <input type="number" name="balcony" placeholder="balcony" required>
+                <ul class="navbar-nav ms-auto align-items-center">
 
-            <select name="location" required>
-                <option value="">Select Location</option>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
 
-                {% for location in locations %}
-                <option value="{{ location }}">{{ location }}</option>
-                {% endfor %}
-            </select>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
 
-            <button type="submit" oneclick="send_data()">Predict Price</button>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#models">Models</a>
+                    </li>
 
-        </form>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
 
-        {% if prediction_text %}
-        <div class="result">
-            {{ prediction_text }}
+                    <li class="nav-item ms-3">
+
+                        <a href="https://github.com/virendraksp47" target="_blank" class="social">
+
+                            <i class="fab fa-github"></i>
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item ms-3">
+
+                        <a href="https://www.linkedin.com/in/virendra-kashyap-429b30247/" target="_blank" class="social">
+
+                            <i class="fab fa-linkedin"></i>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
         </div>
-        {% endif %}
+    </nav>
 
-    </div>
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="container">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-6">
+
+                    <h1>
+
+                        Predict Bangalore House Prices
+
+                    </h1>
+
+                    <p>
+
+                        Estimate property prices instantly using
+                        Machine Learning models trained on cleaned
+                        Bangalore housing data.
+
+                    </p>
+
+                    <div class="hero-btn">
+
+                        <a href="#predict" class="btn btn-primary">
+
+                            Predict Now
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 text-center">
+
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="hero-img">
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= PREDICTION CARD ================= -->
+
+    <section id="predict">
+
+        <div class="container">
+
+            <div class="prediction-card">
+
+                <h2 class="text-center mb-4">
+
+                    House Price Prediction
+
+                </h2>
+
+                <form action="/predict" method="POST">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label>
+
+                                Location
+
+                            </label>
+
+                            <select name="location" class="form-select" required>
+
+                                <option>Select Location</option>
+
+                                {% for location in locations %}
+
+                                <option value="{{location}}">
+
+                                    {{location}}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label>
+
+                                Total Square Feet
+
+                            </label>
+
+                            <input type="number" name="sqft" class="form-control" placeholder="1200" required>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label>
+
+                                BHK
+
+                            </label>
+
+                            <input type="number" name="bhk" class="form-control" placeholder="2" required>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label>
+
+                                Bathrooms
+
+                            </label>
+
+                            <input type="number" name="bath" class="form-control" placeholder="2" required>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label>
+
+                                Balcony
+
+                            </label>
+
+                            <input type="number" name="balcony" class="form-control" placeholder="1" required>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-center mt-4">
+
+                        <button class="btn predict-btn">
+
+                            Predict Price
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <div class="prediction-output">
+
+                    {% if prediction_text %}
+
+                    <h3>
+
+                        {{ prediction_text }}
+
+                    </h3>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+
+    <section id="about">
+
+        <div class="container">
+
+            <h2 class="section-title">
+
+                Project Highlights
+
+            </h2>
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <div class="feature-card">
+
+                        <i class="fas fa-database"></i>
+
+                        <h4>Data Cleaning</h4>
+
+                        <p>
+
+                            ✔ Missing Values
+
+                            <br>
+
+                            ✔ Feature Engineering
+
+                            <br>
+
+                            ✔ Encoding
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="feature-card">
+
+                        <i class="fas fa-chart-line"></i>
+
+                        <h4>EDA</h4>
+
+                        <p>
+
+                            ✔ Visualization
+
+                            <br>
+
+                            ✔ Correlation
+
+                            <br>
+
+                            ✔ Insights
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="feature-card">
+
+                        <i class="fas fa-filter"></i>
+
+                        <h4>Outlier Removal</h4>
+
+                        <p>
+
+                            ✔ Price/Sqft
+
+                            <br>
+
+                            ✔ BHK Filtering
+
+                            <br>
+
+                            ✔ Statistical Cleaning
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= MODELS ================= -->
+
+    <section id="models">
+
+        <div class="container">
+
+            <h2 class="section-title">
+
+                Machine Learning Models
+
+            </h2>
+
+            <div class="row">
+
+                <div class="col-lg-4">
+
+                    <div class="model-card">
+
+                        <h3>
+
+                            Linear Regression
+
+                        </h3>
+
+                        <p>
+
+                            Simple, fast and interpretable regression model used as the baseline.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="model-card">
+
+                        <h3>
+
+                            Ridge Regression
+
+                        </h3>
+
+                        <p>
+
+                            Uses L2 Regularization to reduce overfitting and improve generalization.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="model-card">
+
+                        <h3>
+
+                            Lasso Regression
+
+                        </h3>
+
+                        <p>
+
+                            Uses L1 Regularization for feature selection and sparse models.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="contact">
+
+        <div class="container text-center">
+
+            <h3>
+
+                Bangalore House Price Prediction
+
+            </h3>
+
+            <p>
+
+                Made with ❤️ using Flask, Scikit-Learn, Docker & Render
+
+            </p>
+
+            <div class="footer-icons">
+
+                <a href="https://github.com/YOUR_GITHUB_USERNAME" target="_blank">
+
+                    <i class="fab fa-github"></i>
+
+                </a>
+
+                <a href="https://linkedin.com/in/YOUR_LINKEDIN_USERNAME" target="_blank">
+
+                    <i class="fab fa-linkedin"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 
