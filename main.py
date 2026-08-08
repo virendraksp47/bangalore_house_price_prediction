@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 import pickle
 app=Flask(__name__)
-data=pd.read_csv("cleaned_data.csv")
+data=pd.read_csv("data/processed/cleaned_data.csv")
 pipe=pickle.load(open("RidgeModel.pkl","rb"))
 
 @app.route("/")
